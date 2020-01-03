@@ -22,7 +22,7 @@
 #
 #######################################################################################################################
 
-VERSION="0.1"
+VERSION="0.1.1"
 me=$(basename $0)
 
 # music
@@ -31,6 +31,8 @@ M_EXTENSION_DEFAULTS="mp3"
 P_EXTENSION_DEFAULTS="jpg png jpeg tiff gif"
 # video
 V_EXTENSION_DEFAULTS="mpeg m2t wmv avi mp4 mov flv"
+# volume
+VOLUME_DEFAULT="/volume1"
 
 declare -A TYPES=( [P]=photos [V]=videos [M]=music )
 
@@ -38,7 +40,7 @@ function help() {
 	cat <<END
 Scan Synology for and count number of music-, photo- and video files
 
-$me [-h] [-d] [-o "VOLUME"]  [-m "MUSIC_EXTENSIONS"] [-p "PHOTO_EXTENSIONS"] [-v "VIDEO_EXTENSIONS"]
+$me [-h] [-d] [-o "VOLUME"]  [-m "MUSIC_EXTENSION_LIST"] [-p "PHOTO_EXTENSION_LIST"] [-v "VIDEO_EXTENSION_LIST"]
 
 -d: Debug mode
 
@@ -46,6 +48,7 @@ Example:
 $me -o "/volume1" -p "jpg jpeg" -v "mp4 avi" -m "mp3"
 
 Defaults:
+-o: $VOLUME_DEFAULT
 -m: $M_EXTENSION_DEFAULTS
 -p: $P_EXTENSION_DEFAULTS
 -v: $V_EXTENSION_DEFAULTS
@@ -78,7 +81,7 @@ shift $((OPTIND-1))
 
 [ "${1:-}" = "--" ] && shift
 
-VOLUME="${VOLUME:-"/volume1"}"
+VOLUME="${VOLUME:-"$VOLUME_DEFAULT"}"
 MOMENTS_DIR="$VOLUME/homes/*/Drive/Moments"
 
 # photo
